@@ -12,7 +12,7 @@ print("~~~ DDOS By Jo dibuat hanya untuk kontent/mainan. ~~~")
 ip = str(input(" Target Ip:"))
 port = int(input(" Target Port:"))
 choice = str(input(" UDP(y/n):"))
-times = int(input(" Paket yang dikirim ke target:"))
+times = int(input(" Paket yang dikirim ke Target:"))
 threads = int(input(" Threads yang dikirim:"))
 def run():
 	data = random._urandom(2024)
