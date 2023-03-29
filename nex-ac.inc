@@ -5901,7 +5901,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 	forward ac_OnPlayerKeyStateChange(playerid, newkeys, oldkeys);
 #endif
 
-public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
+public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ, Float:fA)
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
 	new ac_gtc = GetTickCount();
@@ -5913,7 +5913,7 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 	}
 	ACInfo[playerid][acCall][27] = ACInfo[playerid][acCall][2] = ac_gtc;
 	#if defined ac_OnPlayerClickMap
-		return ac_OnPlayerClickMap(playerid, fX, fY, fZ);
+		return ac_OnPlayerClickMap(playerid, fX, fY, fZ, fA);
 	#else
 		return 0;
 	#endif
@@ -5926,7 +5926,7 @@ public OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ)
 #endif
 #define OnPlayerClickMap ac_OnPlayerClickMap
 #if defined ac_OnPlayerClickMap
-	forward ac_OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ);
+	forward ac_OnPlayerClickMap(playerid, Float:fX, Float:fY, Float:fZ, Float:fA);
 #endif
 
 public OnPlayerClickPlayer(playerid, clickedplayerid, source)
