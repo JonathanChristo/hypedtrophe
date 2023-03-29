@@ -3379,31 +3379,6 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys){
 #endif
 #define OnPlayerKeyStateChange EVF_OnPlayerKeyStateChange
 
-//Hook: OnVehicleDamageStatusUpdate
-public OnVehicleDamageStatusUpdate(vehicleid, playerid){
-	new panels, doors, lights, tires;
-	GetVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
-
-	if(!IsVehicleDamageToggled(vehicleid,VEHICLE_DAMAGE_PANELS)) EVF::UpdateVehicleDamageStatus(vehicleid,VEHICLE_DAMAGE_PANELS,0);
-	if(!IsVehicleDamageToggled(vehicleid,VEHICLE_DAMAGE_DOORS)) EVF::UpdateVehicleDamageStatus(vehicleid,VEHICLE_DAMAGE_DOORS,0);
-	if(!IsVehicleDamageToggled(vehicleid,VEHICLE_DAMAGE_LIGHTS)) EVF::UpdateVehicleDamageStatus(vehicleid,VEHICLE_DAMAGE_LIGHTS,0);
-	if(!IsVehicleDamageToggled(vehicleid,VEHICLE_DAMAGE_TIRES)) EVF::UpdateVehicleDamageStatus(vehicleid,VEHICLE_DAMAGE_TIRES,0);
-
-	#if defined EVF_OVDSU
-		EVF::OVDSU(vehicleid,playerid);
-	#endif
-	return 1;
-}
-#if defined EVF_OVDSU
-	forward EVF_OVDSU(vehicleid, playerid);
-#endif
-#if defined _ALS_OnVehicleDamageStatusU
-	#undef OnVehicleDamageStatusUpdate
-#else
-	#define _ALS_OnVehicleDamageStatusU
-#endif
-#define OnVehicleDamageStatusUpdate EVF_OVDSU
-
 //Hook: OnVehicleSpawn
 public OnVehicleSpawn(vehicleid){
 	if(!IsValidVehicle(vehicleid)) return 0;
