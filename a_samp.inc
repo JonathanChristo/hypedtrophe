@@ -54,8 +54,8 @@
 // --------------------------------------------------
 
 // Util
-native print(const string[]);
-native printf(const format[], {Float,_}:...);
+//native print(const string[]);
+//native printf(const format[], {Float,_}:...);
 native format(output[], len, const format[], {Float,_}:...);
 native SendClientMessage(playerid, color, const message[]);
 native SendClientMessageToAll(color, const message[]);
@@ -127,7 +127,7 @@ native AllowAdminTeleport(allow);
 native SetDeathDropAmount(amount);
 native CreateExplosion(Float:X, Float:Y, Float:Z, type, Float:Radius);
 native EnableZoneNames(enable);
-native UsePlayerPedAnims(); // Will cause the players to use CJ running/walking animations
+native UsePlayerPedAnims();		// Will cause the players to use CJ running/walking animations
 native DisableInteriorEnterExits();  // will disable all interior enter/exits in the game.
 native SetNameTagDrawDistance(Float:distance); // Distance at which nametags will start rendering on the client.
 native DisableNameTagLOS(); // Disables the nametag Line-Of-Sight checking
@@ -137,11 +137,6 @@ native LimitPlayerMarkerRadius(Float:marker_radius);
 // Npc
 native ConnectNPC(name[], script[]);
 native IsPlayerNPC(playerid);
-
-// Artwork/NetModels
-native AddCharModel(baseid, newid, dffname[], txdname[]);
-native AddSimpleModel(virtualworld, baseid, newid, dffname[], txdname[]);
-native AddSimpleModelTimed(virtualworld, baseid, newid, dffname[], txdname[], timeon, timeoff);
 
 // Admin
 native IsPlayerAdmin(playerid);
@@ -399,7 +394,6 @@ forward OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid);
 forward OnIncomingConnection(playerid, ip_address[], port);
 forward OnTrailerUpdate(playerid, vehicleid);
 forward OnVehicleSirenStateChange(playerid, vehicleid, newstate);
-forward OnPlayerFinishedDownloading(playerid, virtualworld);
 
 #define CLICK_SOURCE_SCOREBOARD		0
 forward OnPlayerClickPlayer(playerid, clickedplayerid, source);
