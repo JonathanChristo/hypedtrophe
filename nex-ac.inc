@@ -234,8 +234,6 @@
 #define ac_AbsoluteAngle(%0) ((floatround(%0, floatround_floor) % 360) + floatfract(%0))
 #define ac_abs(%0) (((%0) < 0) ? (-(%0)) : ((%0)))
 
-// new panels, engine, lights, alarm, doors, bonnet, boot, objective, tires;
-
 //'ac_ACAllow' contains the default settings that will be set if no config file is found
 //Don't change these values if you already have 'scriptfiles\nex-ac_settings.cfg'
 static bool:ac_ACAllow[] =
@@ -2975,29 +2973,14 @@ stock acc_RepairVehicle(vehicleid)
 #endif
 #define RepairVehicle acc_RepairVehicle
 
-// new panels, engines, light, alarms, door, bonnets, boots, objectives, tire;
+stock orig_UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires) return UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 
-stock orig_UpdateVehicleDamageStatus(vehicleid, panelss, doorss, lightss, tiress) 
+stock acc_UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires)
 {
-	// new lights, doors, panels, tires;
-	panelss = panels;
-	doorss = doors;
-	lightss = lights;
-	tiress = tires;
-	return UpdateVehicleDamageStatus(vehicleid, panelss, doorss, lightss, tiress);
-}
-
-stock acc_UpdateVehicleDamageStatus(vehicleid, panelss, doorss, lightss, tiress)
-{
-	// new lights, doors, panels, tires;
-	panelss = panels;
-	doorss = doors;
-	lightss = lights;
-	tiress = tires;
 	#if defined FILTERSCRIPT
-		return CallRemoteFunction("ac_UpdateVehicleDamageStatus", "iiiii", vehicleid, panelss, doorss, lightss, tiress);
+		return CallRemoteFunction("ac_UpdateVehicleDamageStatus", "iiiii", vehicleid, panels, doors, lights, tires);
 	#else
-		return ac_UpdateVehicleDamageStatus(vehicleid, panelss, doorss, lightss, tiress);
+		return ac_UpdateVehicleDamageStatus(vehicleid, panels, doors, lights, tires);
 	#endif
 }
 
@@ -3008,33 +2991,14 @@ stock acc_UpdateVehicleDamageStatus(vehicleid, panelss, doorss, lightss, tiress)
 #endif
 #define UpdateVehicleDamageStatus acc_UpdateVehicleDamageStatus
 
-stock orig_SetVehicleParamsEx(vehicleid, engines, lightss, alarms, doorss, bonnets, boots, objectives) 
-{
-	// new engine, lights, alarm, doors, bonnet, boot, objective;
-	engines = engine;
-	lightss = lights;
-	alarms = alarm;
-	doorss = doors;
-	bonnets = bonnet;
-	boots = boot;
-	objectives = objective;
-	return SetVehicleParamsEx(vehicleid, engines, lightss, alarms, doorss, bonnets, boots, objectives);
-}
+stock orig_SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective) return SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
 
-stock acc_SetVehicleParamsEx(vehicleid, engines, lightss, alarms, doorss, bonnets, boots, objectives)
+stock acc_SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective)
 {
-	// new engine, lights, alarm, doors, bonnet, boot, objective;
-	engines = engine;
-	lightss = lights;
-	alarms = alarm;
-	doorss = doors;
-	bonnets = bonnet;
-	boots = boot;
-	objectives = objective;
 	#if defined FILTERSCRIPT
-		return CallRemoteFunction("ac_SetVehicleParamsEx", "iiiiiiii", vehicleid, engines, lightss, alarms, doorss, bonnets, boots, objectives);
+		return CallRemoteFunction("ac_SetVehicleParamsEx", "iiiiiiii", vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
 	#else
-		return ac_SetVehicleParamsEx(vehicleid, engines, lightss, alarms, doorss, bonnets, boots, objectives);
+		return ac_SetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
 	#endif
 }
 
@@ -3045,21 +3009,14 @@ stock acc_SetVehicleParamsEx(vehicleid, engines, lightss, alarms, doorss, bonnet
 #endif
 #define SetVehicleParamsEx acc_SetVehicleParamsEx
 
-stock orig_SetVehicleParamsForPlayer(vehicleid, playerid, objectives, doorslocked) 
-{
-        // new objective;
-	objectives = objective;
-	return SetVehicleParamsForPlayer(vehicleid, playerid, objectives, doorslocked);
-}
+stock orig_SetVehicleParamsForPlayer(vehicleid, playerid, objective, doorslocked) return SetVehicleParamsForPlayer(vehicleid, playerid, objective, doorslocked);
 
-stock acc_SetVehicleParamsForPlayer(vehicleid, playerid, objectives, doorslocked)
+stock acc_SetVehicleParamsForPlayer(vehicleid, playerid, objective, doorslocked)
 {
-	// new objective;
-	objectives = objective;
 	#if defined FILTERSCRIPT
-		return CallRemoteFunction("ac_SetVehicleParamsForPlayer", "iiii", vehicleid, playerid, objectives, doorslocked);
+		return CallRemoteFunction("ac_SetVehicleParamsForPlayer", "iiii", vehicleid, playerid, objective, doorslocked);
 	#else
-		return ac_SetVehicleParamsForPlayer(vehicleid, playerid, objectives, doorslocked);
+		return ac_SetVehicleParamsForPlayer(vehicleid, playerid, objective, doorslocked);
 	#endif
 }
 
@@ -4022,18 +3979,10 @@ public OnPlayerDeath(playerid, killerid, reason)
 	forward ac_OnPlayerDeath(playerid, killerid, reason);
 #endif
 
-#if defined _inc_y_hooks || defined _INC_y_hooks
-	#if defined OnPlayerWeaponShot
-		hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
-	#else
-		hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
-	#endif
+#if defined OnPlayerWeaponShot
+	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 #else
-	#if defined OnPlayerWeaponShot
-		public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
-	#else
-		public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
-	#endif
+	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
@@ -4086,18 +4035,10 @@ public OnPlayerDeath(playerid, killerid, reason)
 	#endif
 #endif
 
-#if defined _inc_y_hooks || defined _INC_y_hooks
-	#if defined OnPlayerWeaponShot
-		hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
-	#else
-		hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
-	#endif
+#if defined OnPlayerWeaponShot
+	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 #else
-	#if defined OnPlayerWeaponShot
-		public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
-	#else
-		public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
-	#endif
+	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
