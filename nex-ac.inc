@@ -3979,10 +3979,18 @@ public OnPlayerDeath(playerid, killerid, reason)
 	forward ac_OnPlayerDeath(playerid, killerid, reason);
 #endif
 
-#if defined OnPlayerWeaponShot
-	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
+#if defined _inc_y_hooks || defined _INC_y_hooks
+	#if defined OnPlayerWeaponShot
+		hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
+	#else
+		hook OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
+	#endif
 #else
-	public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
+	#if defined OnPlayerWeaponShot
+		public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
+	#else
+		public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid)
+	#endif
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
@@ -4035,10 +4043,18 @@ public OnPlayerDeath(playerid, killerid, reason)
 	#endif
 #endif
 
-#if defined OnPlayerWeaponShot
-	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+#if defined _inc_y_hooks || defined _INC_y_hooks
+	#if defined OnPlayerWeaponShot
+		hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+	#else
+		hook OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
+	#endif
 #else
-	public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
+	#if defined OnPlayerWeaponShot
+		public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+	#else
+		public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid)
+	#endif
 #endif
 {
 	if(ACInfo[playerid][acKicked] > 0) return 1;
