@@ -29,23 +29,23 @@ new MonthTimes[12][4] =
 	{ 31, 31, 2678400, 2678400 }
 };
 
-stock IsLeapYear(year)
+stock IsLeapYear(years)
 {
-	if(year % 4 == 0) return 1;
+	if(years % 4 == 0) return 1;
 	else return 0;
 }
 
-stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, HourGMT, MinuteGMT = 0)
+stock TimestampToDate(Timestamp, &years, &months, &days, &hour, &minute, &second, HourGMT, MinuteGMT = 0)
 {
 	new tmp = 2;
-	year = 1970;
-	month = 1;
+	years = 1970;
+	months = 1;
 	Timestamp -= 172800; // Delete two days from the current timestamp. This is necessary, because the timestamp retrieved using gettime() includes two too many days.
 	for(;;)
 	{
 		if(Timestamp >= 31536000)
 		{
-			year ++;
+			years ++;
 			Timestamp -= 31536000;
 			tmp ++;
 			if(tmp == 4)
@@ -53,7 +53,7 @@ stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, H
 				if(Timestamp >= 31622400)
 				{
 					tmp = 0;
-					year ++;
+					years ++;
 					Timestamp -= 31622400;
 				}
 				else break;
@@ -63,14 +63,14 @@ stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, H
 	}		
 	for(new i = 0; i < 12; i ++)
 	{
-		if(Timestamp >= MonthTimes[i][2 + IsLeapYear(year)])
+		if(Timestamp >= MonthTimes[i][2 + IsLeapYear(years)])
 		{
-			month ++;
-			Timestamp -= MonthTimes[i][2 + IsLeapYear(year)];
+			months ++;
+			Timestamp -= MonthTimes[i][2 + IsLeapYear(years)];
 		}
 		else break;
 	}
-	day = 1 + (Timestamp / 86400);
+	days = 1 + (Timestamp / 86400);
 	Timestamp %= 86400;
 	hour = HourGMT + (Timestamp / 3600);
 	Timestamp %= 3600;
@@ -84,17 +84,17 @@ stock TimestampToDate(Timestamp, &year, &month, &day, &hour, &minute, &second, H
 	if(hour > 23)
 	{
 		hour -= 24;
-		day ++;
+		days ++;
 	}	
-	if(day > MonthTimes[month][IsLeapYear(year)])
+	if(days > MonthTimes[months][IsLeapYear(years)])
 	{
-		day = 1;
-		month ++;
+		days = 1;
+		months ++;
 	}
-	if(month > 12)
+	if(months > 12)
 	{
-		month = 1;
-		year ++;
+		months = 1;
+		years ++;
 	}
 	return 1;
 }
