@@ -3188,7 +3188,7 @@ public OnPlayerUpdate(playerid)
 	return WC_OnPlayerUpdate(playerid);
 }
 
-public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
+public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart, error)
 {
 	if (!IsHighRateWeapon(weaponid)) {
 		DebugMessage(playerid, "OnPlayerGiveDamage(%d gave %f to %d using %d on bodypart %d)", playerid, amount, damagedid, weaponid, bodypart);
@@ -3350,15 +3350,15 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 		return 0;
 	}
 
-	new Float:bullets, err;
+	new Float:bullets;
 
-	if ((err = ProcessDamage(damagedid, playerid, amount, weaponid, bodypart, bullets))) {
-		if (err == WC_INVALID_DAMAGE) {
+	if ((error = ProcessDamage(damagedid, playerid, amount, weaponid, bodypart, bullets))) {
+		if (error == WC_INVALID_DAMAGE) {
 			AddRejectedHit(playerid, damagedid, HIT_INVALID_DAMAGE, weaponid, _:amount);
 		}
 
-		if (err != WC_INVALID_DISTANCE) {
-			OnInvalidWeaponDamage(playerid, damagedid, amount, weaponid, bodypart, err, true);
+		if (error != WC_INVALID_DISTANCE) {
+			OnInvalidWeaponDamage(playerid, damagedid, amount, weaponid, bodypart, error, true);
 		}
 
 		return 0;
@@ -3461,7 +3461,7 @@ public OnPlayerGiveDamage(playerid, damagedid, Float:amount, weaponid, bodypart)
 	return 0;
 }
 
-public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
+public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart, error)
 {
 	if (IsPlayerNPC(playerid)) {
 		return 0;
@@ -3624,15 +3624,15 @@ public OnPlayerTakeDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 		}
 	}
 
-	new Float:bullets = 0.0, err;
+	new Float:bullets = 0.0;
 
-	if ((err = ProcessDamage(playerid, issuerid, amount, weaponid, bodypart, bullets))) {
-		if (err == WC_INVALID_DAMAGE) {
+	if ((error = ProcessDamage(playerid, issuerid, amount, weaponid, bodypart, bullets))) {
+		if (error == WC_INVALID_DAMAGE) {
 			AddRejectedHit(issuerid, playerid, HIT_INVALID_DAMAGE, weaponid, _:amount);
 		}
 
-		if (err != WC_INVALID_DISTANCE) {
-			OnInvalidWeaponDamage(issuerid, playerid, amount, weaponid, bodypart, err, false);
+		if (error != WC_INVALID_DISTANCE) {
+			OnInvalidWeaponDamage(issuerid, playerid, amount, weaponid, bodypart, error, false);
 		}
 
 		return 0;
@@ -3709,7 +3709,7 @@ public OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY
 	}
 
 	if (!WC_IsPlayerSpawned(playerid) && tick - s_LastDeathTick[playerid] > 80) {
-		AddRejectedHit(playerid, damagedid, HIT_NOT_SPAWNED, weaponid);
+		AddRejectedHit(playerid, g, HIT_NOT_SPAWNED, weaponid);
 
 		return 0;
 	}
