@@ -368,7 +368,7 @@ stock ShowModelSelectionMenuEx(playerid, items_array[], item_amount, header_text
 
 //------------------------------------------------
 
-stock HideModelSelectionMenu(playerid)
+stock HideModelSelectionMenuS(playerid)
 {
 	mS_DestroySelectionMenu(playerid);
 	SetPVarInt(playerid, "mS_ignore_next_esc", 1);
@@ -498,13 +498,13 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 		if(listID == mS_CUSTOM_LISTID)
 		{
 			new extraid = GetPVarInt(playerid, "mS_custom_extraid");
-			HideModelSelectionMenu(playerid);
+			HideModelSelectionMenuS(playerid);
 			CallLocalFunction("OnPlayerModelSelectionEx", "dddd", playerid, 0, extraid, -1);
 			PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 		}
 		else
 		{
-			HideModelSelectionMenu(playerid);
+			HideModelSelectionMenuS(playerid);
 			CallLocalFunction("OnPlayerModelSelection", "dddd", playerid, 0, listID, -1);
 			PlayerPlaySound(playerid, 1085, 0.0, 0.0, 0.0);
 		}
@@ -562,7 +562,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 				PlayerPlaySound(playerid, 1083, 0.0, 0.0, 0.0);
 				new item_id = gSelectionItemsTag[playerid][x];
 				new extraid = GetPVarInt(playerid, "mS_custom_extraid");
-				HideModelSelectionMenu(playerid);
+				HideModelSelectionMenuS(playerid);
 				CallLocalFunction("OnPlayerModelSelectionEx", "dddd", playerid, 1, extraid, item_id);
 				return 1;
 			}
@@ -570,7 +570,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 			{
 				PlayerPlaySound(playerid, 1083, 0.0, 0.0, 0.0);
 				new item_id = gSelectionItemsTag[playerid][x];
-				HideModelSelectionMenu(playerid);
+				HideModelSelectionMenuS(playerid);
 				CallLocalFunction("OnPlayerModelSelection", "dddd", playerid, 1, listID, item_id);
 				return 1;
 			}
@@ -593,7 +593,7 @@ forward MP_OPCPTD(playerid, PlayerText:playertextid);
 //------------------------------------------------------------------
 
 
-stock LoadModelSelectionMenu(f_name[])
+stock LoadModelSelectionMenuS(f_name[])
 {
 	new File:f, str[75];
 	format(str, sizeof(str), "%s", f_name);
