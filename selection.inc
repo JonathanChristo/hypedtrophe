@@ -108,7 +108,7 @@ stock ShowPlayerSelectionMenu(playerid, extraid, name[], const items[] = {-1}, s
 
 	if(selectorMenu[playerid][pDisplayed])
 	{
-		HidePlayerSelectionMenu(playerid);
+		HidePlayerSelectionMenuEx(playerid);
 	}
 
 	new
@@ -202,7 +202,7 @@ stock ShowPlayerSelectionMenu(playerid, extraid, name[], const items[] = {-1}, s
 	return true;
 }
 
-stock HidePlayerSelectionMenu(playerid)
+stock HidePlayerSelectionMenuEx(playerid)
 {
 	if(!IsPlayerConnected(playerid) || !selectorMenu[playerid][pDisplayed])
 	    return false;
@@ -321,7 +321,7 @@ public OnFilterScriptExit()
 	{
 	    if(IsPlayerConnected(i) && selectorMenu[i][pDisplayed])
 	    {
-	        HidePlayerSelectionMenu(i);
+	        HidePlayerSelectionMenuEx(i);
 		}
 	}
 	
@@ -348,7 +348,7 @@ public OnPlayerDisconnect(playerid, reason)
 {
     if(selectorMenu[playerid][pDisplayed])
 	{
-	    HidePlayerSelectionMenu(playerid);
+	    HidePlayerSelectionMenuEx(playerid);
 	}
 	
 	#if defined SM_OnPlayerDisconnect
@@ -382,7 +382,7 @@ public OnPlayerClickTextDraw(playerid, Text:clickedid)
 	    {
 			if(funcidx("OnPlayerSelectionMenuResponse") == -1 || CallLocalFunction("OnPlayerSelectionMenuResponse", "iiiii", playerid, selectorMenu[playerid][pExtra], 0, -1, -1))
 			{
-		    	HidePlayerSelectionMenu(playerid);
+		    	HidePlayerSelectionMenuEx(playerid);
 			}
 			else
 			{
@@ -433,7 +433,7 @@ public OnPlayerClickPlayerTextDraw(playerid, PlayerText:playertextid)
 					extraid = selectorMenu[playerid][pExtra],
 					modelid = selectorMenu[playerid][pList][index];
 
-				HidePlayerSelectionMenu(playerid);
+				HidePlayerSelectionMenuEx(playerid);
 				CallLocalFunction("OnPlayerSelectionMenuResponse", "iiiii", playerid, extraid, 1, index, modelid);
 				return 1;
 			}
